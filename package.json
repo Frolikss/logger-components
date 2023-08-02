@@ -1,6 +1,6 @@
 {
   "name": "logger-components",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "lib/index.js",
   "author": "Frolikss yanushd11@gmail.com",
   "homepage": "https://github.com/Frolikss/logger-components",
@@ -50,8 +50,5 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "rollup -c"
-  },
-  "dependencies": {
-    "react-router-dom": "^6.14.2"
   }
 }

@@ -1,9 +1,7 @@
-import { AppRoutes } from '@shared/constants';
-
-import { SVGComponent } from '@shared/types';
+import {FC, SVGProps} from "react";
 
 export interface MenuItem {
-  path: AppRoutes;
-  icon: SVGComponent;
+  path: string;
+  icon: FC<SVGProps<SVGSVGElement>>;
   text: string;
 }
