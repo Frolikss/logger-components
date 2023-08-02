@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import { FC, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '../../button';
 
@@ -8,10 +8,10 @@ import { MenuItem } from '../types/menu.interfaces';
 
 interface Props {
   config: MenuItem[];
+  pathname: string
 }
 
-export const SideNavMenu: FC<Props> = ({ config }) => {
-  const { pathname } = useLocation();
+export const SideNavMenu: FC<Props> = ({ config, pathname }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   const onMenuClick = () => setIsOpened((prevIsOpened) => !prevIsOpened);
