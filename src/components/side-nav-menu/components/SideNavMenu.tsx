@@ -18,7 +18,6 @@ export const SideNavMenu: FC<Props> = ({ children }) => {
         Logo
       </a>
         {children}
-      ))}
     </nav>
   );
 };
