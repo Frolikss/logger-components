@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { ForwardedRef, TextareaHTMLAttributes, forwardRef } from 'react';
+import React, { ForwardedRef, TextareaHTMLAttributes, forwardRef } from 'react';
 
 import { TEXTAREA_STYLES, TextareaVariants } from './text-area-style-variants';
 

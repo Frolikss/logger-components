@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { Button } from '../../button';
 
@@ -21,9 +20,9 @@ export const SideNavMenu: FC<Props> = ({ config, pathname }) => {
       className={cn('grid grid-cols-0 min-h-0 grid-rows-nav gap-2 bg-blue-400 p-2 transition-all', {
         'grid-cols-auto': isOpened
       })}>
-      <Link to="#" className="mb-4 select-none">
+      <a href="/" className="mb-4 select-none">
         Logo
-      </Link>
+      </a>
       <Button
         className={cn(
           'w-9 h-9 rounded-full bg-amber-600 hover:bg-gray-300 hover:text-amber-600 rounded-full text-white self-start relative',

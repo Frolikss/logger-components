@@ -1,8 +1,8 @@
 import cn from 'classnames';
-import { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import moment from 'moment';
 
-interface Config<T> {
+export interface Config<T> {
   title?: string;
   value: string;
   date?: boolean;
@@ -22,11 +22,9 @@ interface Props<T> {
   pageNumber?: number;
 }
 
-
 const getFormattedDate = (date: number) => {
   return moment(date).format('DD.MM.YYYY');
 };
-
 
 export const Table: FC<Props<any>> = ({ items, config, pageNumber }) => {
   const [selectedId, setSelectedId] = useState<string>();
