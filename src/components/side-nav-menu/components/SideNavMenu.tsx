@@ -1,9 +1,11 @@
 import cn from 'classnames';
-import React, { FC, useState } from 'react';
+import React, { FC, SVGProps } from 'react';
 
-import { Button } from '../../button';
-
-import { MenuItem } from '../types/menu.interfaces';
+export interface MenuItem {
+    path: string;
+    icon: FC<SVGProps<SVGSVGElement>>;
+    text: string;
+}
 
 interface Props {
   config: MenuItem[];
@@ -11,45 +13,25 @@ interface Props {
 }
 
 export const SideNavMenu: FC<Props> = ({ config, pathname }) => {
-  const [isOpened, setIsOpened] = useState(false);
-
-  const onMenuClick = () => setIsOpened((prevIsOpened) => !prevIsOpened);
-
   return (
     <nav
-      className={cn('grid grid-cols-0 min-h-0 grid-rows-nav gap-2 bg-blue-400 p-2 transition-all', {
-        'grid-cols-auto': isOpened
-      })}>
-      <a href="/" className="mb-4 select-none">
+      className="flex flex-col gap-2 bg-blue-400 p-2 transition-all">
+      <a href="/" className="mb-4">
         Logo
       </a>
-      <Button
-        className={cn(
-          'w-9 h-9 rounded-full bg-amber-600 hover:bg-gray-300 hover:text-amber-600 rounded-full text-white self-start relative',
-          { 'left-[90%]': isOpened },
-          { 'left-[67%]': !isOpened }
-        )}
-        onClick={onMenuClick}>
-        {isOpened ? '❮' : '❯'}
-      </Button>
       {config.map(({ path, icon: Icon, text }) => (
-        <Link
+        <a
           key={path}
-          to={path}
+          href={path}
           className={cn(
-            'flex gap-2 self-start overflow-hidden transition-all p-1.5 rounded-full',
-            {
-              'hover:bg-blue-600': isOpened
-            },
+            'flex gap-2 self-start transition-all p-1.5 rounded-full',
             { 'bg-amber-600': path === pathname }
           )}>
           <Icon
-            className={cn('fill-white transition-all w-6 shrink-0', {
-              'hover:fill-blue-600': !isOpened
-            })}
+            className="fill-white transition-all w-6 shrink-0"
           />
-          <span className="text-white overflow-hidden">{text}</span>
-        </Link>
+          <span className="text-white">{text}</span>
+        </a>
       ))}
     </nav>
   );
