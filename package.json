@@ -1,6 +1,6 @@
 {
   "name": "logger-components",
-  "version": "1.0.61",
+  "version": "1.0.96",
   "main": "lib/index.js",
   "author": "Frolikss yanushd11@gmail.com",
   "homepage": "https://github.com/Frolikss/logger-components",
@@ -48,7 +48,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@tanstack/react-table": "^8.9.3"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",

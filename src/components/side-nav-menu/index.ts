@@ -1,2 +1,2 @@
-export { SideNavMenu } from "./components/SideNavMenu";
-export type { MenuItem } from './components/SideNavMenu';
+export { SideNavMenu } from "./SideNavMenu";
+export type { MenuItem } from './SideNavMenu';

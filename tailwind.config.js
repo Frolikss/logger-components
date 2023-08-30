@@ -4,6 +4,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'primary-text': '#1C1F37',
+        'text-gray': '#53575A',
+        background: '#F8F9FF',
+        'dim-blue': '#EBF1FC',
+        dim: '#F5F7FB',
+        reject: '#E06C50',
+        approve: '#4EA67D',
+        pending: '#FCD777',
         primary: {
           300: '#93c5fd',
           400: '#60a5fa',
@@ -25,6 +33,10 @@ module.exports = {
           800: '#1f2937'
         }
       },
+    boxShadow: {
+      dashboard: '0px 5px 10px 0px #F1F2FA',
+      button: '0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04)'
+    },
       borderWidth: {
         1: '1px'
       },
