@@ -1,70 +1,83 @@
-import { Table, flexRender } from '@tanstack/react-table';
-import React, {Dispatch, Fragment, ReactNode, SetStateAction, useState} from 'react';
-import cn from "classnames";
+import React, { Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useState } from 'react';
+
+import { ColumnItem } from './table.interfaces';
 
 interface Props<T> {
-  table: Table<T>;
+  data: T[];
+  columns: ColumnItem<T>[];
   hasDropDown?: boolean;
-  dropDownItems?: ReactNode[];
-  setSelectedRow?: Dispatch<SetStateAction<number>>;
-  rowClassName?: string;
+  dropDownContent?: ReactNode[];
+  setSelectedRow?: Dispatch<SetStateAction<string>>;
 }
 
-export const Table = <T,>({ table, hasDropDown, dropDownItems, setSelectedRow, rowClassName }: Props<T>) => {
-    const [selectedId, setSelectedId] = useState<number>();
+export const Table = <T extends { id: string }>({
+  data,
+  columns,
+  hasDropDown,
+  dropDownContent,
+  setSelectedRow
+}: Props<T>) => {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-    const onRowClick = <T,>(row: T) => () => {
-        setSelectedRow && setSelectedRow(row.index);
-        setSelectedId(selectedId !== row.index ? row.index : -1)
+  const onRowClick = (selectedItem: number) => () => {
+    setSelectedIndex((previousIndex) => (previousIndex === selectedItem ? -1 : selectedItem));
+    if (setSelectedRow) {
+      setSelectedRow(`${selectedIndex}`);
     }
+  };
 
-    return (
-      <table className="w-full select-none">
-        <thead
-            className="text-xs text-xs 2xl:text-xl"
-            style={{
-              backgroundColor: '#EBF1FC'
-            }}>
-        {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                  <th
-                      key={header.id}
-                      className="py-4 first:rounded-l-md last:rounded-r-md px-1.5 text-left font-medium">
-                    {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
+  useEffect(() => {
+    setSelectedIndex(-1);
+  }, [data]);
+
+  if (!data) return null;
+  return (
+    <table className="w-full select-none">
+      <thead
+        className="text-xs text-xs 2xl:text-xl"
+        style={{
+          backgroundColor: '#EBF1FC'
+        }}>
+        <tr>
+          {columns.map(({ id, header }) => (
+            <th
+              key={id}
+              className="py-4 first:rounded-l-md last:rounded-r-md px-1.5 text-left font-medium">
+              {header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="text-sm">
+        {data.map((dataItem, dataIndex) => (
+          <Fragment key={dataItem.id}>
+            <tr
+              onClick={onRowClick(dataIndex)}
+              className="border-b-2 cursor-pointer transition-all rounded-md hover:bg-blue-100/60">
+              {columns.map(({ id, accessor, cell }) => (
+                <td
+                  key={id}
+                  className="py-4 px-1.5 font-normal first:rounded-l-md last:rounded-r-md">
+                  {cell(dataItem[accessor])}
+                </td>
               ))}
             </tr>
-        ))}
-        </thead>
-        <tbody className="text-sm">
-        {table.getRowModel().rows.map((row) => (
-            <Fragment key={row.id}>
-            <tr
-                className={cn('border-b-2 cursor-pointer transition-all rounded-md', rowClassName)}
-                onClick={onRowClick(row)}>
-                    {row.getVisibleCells().map((cell) => (
-                        <td
-                            key={cell.id}
-                            className="py-4 px-1.5 font-normal first:rounded-l-md last:rounded-r-md">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                    ))}
-            </tr>
-                {hasDropDown && (
-                    <tr className="grid transition-all overflow-hidden [&>*]:overflow-hidden" style={{
-                        gridTemplateRows: selectedId === row.index ? '1fr' : '0fr'
+            {hasDropDown && dropDownContent && (
+              <tr>
+                <td colSpan={columns.length}>
+                  <div
+                    className="grid transition-all [&>*]:overflow-hidden"
+                    style={{
+                      gridTemplateRows: selectedIndex === dataIndex ? '1fr' : '0fr'
                     }}>
-                        <td>
-                            {dropDownItems && dropDownItems[row.index]}
-                        </td>
-                    </tr>
-                )}
-            </Fragment>
+                    {dropDownContent[dataIndex]}
+                  </div>
+                </td>
+              </tr>
+            )}
+          </Fragment>
         ))}
-        </tbody>
-      </table>
+      </tbody>
+    </table>
   );
 };
