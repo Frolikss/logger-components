@@ -1,13 +1,14 @@
 import React, { Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useState } from 'react';
 
 import { ColumnItem } from './table.interfaces';
+import './table.css';
 
 interface Props<T> {
   data: T[];
   columns: ColumnItem<T>[];
   hasDropDown?: boolean;
   dropDownContent?: ReactNode[];
-  setSelectedRow?: Dispatch<SetStateAction<string>>;
+  setSelectedRow?: Dispatch<SetStateAction<number>>;
 }
 
 export const Table = <T extends { id: string }>({
@@ -20,9 +21,12 @@ export const Table = <T extends { id: string }>({
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const onRowClick = (selectedItem: number) => () => {
-    setSelectedIndex((previousIndex) => (previousIndex === selectedItem ? -1 : selectedItem));
     if (setSelectedRow) {
-      setSelectedRow(`${selectedIndex}`);
+      setSelectedRow(selectedItem);
+    }
+
+    if (hasDropDown) {
+      setSelectedIndex((previousIndex) => (previousIndex === selectedItem ? -1 : selectedItem));
     }
   };
 
@@ -42,7 +46,10 @@ export const Table = <T extends { id: string }>({
           {columns.map(({ id, header }) => (
             <th
               key={id}
-              className="py-4 first:rounded-l-md last:rounded-r-md px-1.5 text-left font-medium">
+              className="first:rounded-l-md last:rounded-r-md text-left font-medium"
+              style={{
+                padding: '1rem 0.375rem'
+              }}>
               {header}
             </th>
           ))}
@@ -53,11 +60,14 @@ export const Table = <T extends { id: string }>({
           <Fragment key={dataItem.id}>
             <tr
               onClick={onRowClick(dataIndex)}
-              className="border-b-2 cursor-pointer transition-all rounded-md hover:bg-blue-100/60">
+              className="row border-b-2 cursor-pointer transition-all rounded-md hover:bg-blue-100/60">
               {columns.map(({ id, accessor, cell }) => (
                 <td
                   key={id}
-                  className="py-4 px-1.5 font-normal first:rounded-l-md last:rounded-r-md">
+                  className="font-normal first:rounded-l-md last:rounded-r-md"
+                style={{
+                  padding: '1rem 0.375rem'
+                }}>
                   {cell(dataItem[accessor])}
                 </td>
               ))}
